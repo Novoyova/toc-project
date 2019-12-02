@@ -12,35 +12,89 @@ from utils import send_text_message
 
 load_dotenv()
 
-
 machine = TocMachine(
-    states=["user", "state1", "state2"],
+    states=["init", "food", "sate", "nasi_campur", "betutu", "babi_guling", "pisang_goreng"],
     transitions=[
         {
             "trigger": "advance",
-            "source": "user",
-            "dest": "state1",
-            "conditions": "is_going_to_state1",
+            "source": "init",
+            "dest": "food",
+            "conditions": "is_init",
         },
         {
             "trigger": "advance",
-            "source": "user",
-            "dest": "state2",
-            "conditions": "is_going_to_state2",
+            "source": "food",
+            "dest": "sate",
+            "conditions": "is_going_to_sate",
         },
         {
-            "trigger": "go_back", 
-            "source": ["state1", "state2"], 
-            "dest": "user"
+            "trigger": "advance",
+            "source": "food",
+            "dest": "nasi_campur",
+            "conditions": "is_going_to_nasi_campur",
+        },
+        {
+            "trigger": "advance",
+            "source": "food",
+            "dest": "betutu",
+            "conditions": "is_going_to_betutu",
+        },
+        {
+            "trigger": "advance",
+            "source": "food",
+            "dest": "babi_guling",
+            "conditions": "is_going_to_babi_guling",
+        },
+        {
+            "trigger": "advance",
+            "source": "food",
+            "dest": "pisang_goreng",
+            "conditions": "is_going_to_pisang_goreng",
+        },
+        {
+            "trigger": "advance",
+            "source": "sate",
+            "dest": "nasi_campur",
+            "conditions": "is_next",
+        },
+        {
+            "trigger": "advance",
+            "source": "nasi_campur",
+            "dest": "betutu",
+            "conditions": "is_next",
+        },
+        {
+            "trigger": "advance",
+            "source": "betutu",
+            "dest": "babi_guling",
+            "conditions": "is_next",
+        },
+        {
+            "trigger": "advance",
+            "source": "babi_guling",
+            "dest": "pisang_goreng",
+            "conditions": "is_next",
+        },
+        {
+            "trigger": "advance",
+            "source": "pisang_goreng",
+            "dest": "sate",
+            "conditions": "is_next",
+        },
+        {
+            "trigger": "advance", 
+            "source": ["sate", "nasi_campur", "betutu", "babi_guling", "pisang_goreng"], 
+            "dest": "food",
+            "conditions": "is_going_to_food",
         },
     ],
-    initial="user",
+    initial="init",
     auto_transitions=False,
     show_conditions=True,
 )
 
 app = Flask(__name__, static_url_path="")
-
+machine.get_graph().draw("fsm.png", prog="dot", format="png")
 
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = os.getenv("LINE_CHANNEL_SECRET", None)
@@ -54,7 +108,6 @@ if channel_access_token is None:
 
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
-
 
 @app.route("/callback", methods=["POST"])
 def callback():
@@ -108,7 +161,7 @@ def webhook_handler():
         print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
         if response == False:
-            send_text_message(event.reply_token, "Not Entering any State")
+            send_text_message(event.reply_token, "Sorry, I can't understand you")
 
     return "OK"
 

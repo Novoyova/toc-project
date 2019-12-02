@@ -1,4 +1,5 @@
 import os
+from flask import request
 
 from linebot import LineBotApi, WebhookParser
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, ButtonsTemplate
@@ -14,15 +15,17 @@ def send_text_message(reply_token, text):
     return "OK"
 
 
-"""
-elif text == 'image':
-        url = request.url_root + '/static/logo.png'
-        app.logger.info("url=" + url)
-        line_bot_api.reply_message(
-            event.reply_token,
-            ImageSendMessage(url, url)
-        )
-"""
+
+def send_image_url(id, img_url):
+    url = request.url_root + img_url
+    # print("URL: ", url)
+    # url = img_url
+    # app.logger.info("url=" + url)
+    line_bot_api = LineBotApi(channel_access_token)
+    line_bot_api.reply_message(id, ImageSendMessage(url, url))
+
+    return "OK"
+
 
 """
 elif text == 'buttons':
@@ -38,10 +41,8 @@ elif text == 'buttons':
         line_bot_api.reply_message(event.reply_token, template_message)
 """
 
-"""
-def send_image_url(id, img_url):
-    pass
 
+"""
 def send_button_message(id, text, buttons):
     pass
 """
