@@ -16,15 +16,15 @@ def send_text_message(reply_token, text):
 
 
 
-def send_image_url(id, img_url):
-    url = request.url_root + img_url
-    # print("URL: ", url)
-    # url = img_url
-    # app.logger.info("url=" + url)
-    line_bot_api = LineBotApi(channel_access_token)
-    line_bot_api.reply_message(id, ImageSendMessage(url, url))
+# def send_image_url(id, img_url):
+#     url = request.url_root + img_url
+#     # print("URL: ", url)
+#     # url = img_url
+#     # app.logger.info("url=" + url)
+#     line_bot_api = LineBotApi(channel_access_token)
+#     line_bot_api.reply_message(id, ImageSendMessage(url, url))
 
-    return "OK"
+#     return "OK"
 
 
 """

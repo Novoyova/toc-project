@@ -49,7 +49,7 @@ class TocMachine(GraphMachine):
 
         reply_token = event.reply_token
         send_text_message(reply_token, data['sate']['description'])
-        send_image_url(reply_token, data['sate']['image_url'])
+        # send_image_url(reply_token, data['sate']['image_url'])
         # self.go_back()
 
     # def on_exit_state2(self):
@@ -60,7 +60,7 @@ class TocMachine(GraphMachine):
 
         reply_token = event.reply_token
         send_text_message(reply_token, data['nasi_campur']['description'])
-        send_image_url(reply_token, data['nasi_campur']['image_url'])
+        # send_image_url(reply_token, data['nasi_campur']['image_url'])
         # self.go_back()
 
     def on_enter_betutu(self, event):
@@ -68,7 +68,7 @@ class TocMachine(GraphMachine):
 
         reply_token = event.reply_token
         send_text_message(reply_token, data['betutu']['description'])
-        send_image_url(reply_token, data['betutu']['image_url'])
+        # send_image_url(reply_token, data['betutu']['image_url'])
         # self.go_back()
 
     def on_enter_babi_guling(self, event):
@@ -76,7 +76,7 @@ class TocMachine(GraphMachine):
 
         reply_token = event.reply_token
         send_text_message(reply_token, data['babi_guling']['description'])
-        send_image_url(reply_token, data['babi_guling']['image_url'])
+        # send_image_url(reply_token, data['babi_guling']['image_url'])
         # self.go_back()
 
     def on_enter_pisang_goreng(self, event):
@@ -84,7 +84,7 @@ class TocMachine(GraphMachine):
         
         reply_token = event.reply_token
         send_text_message(reply_token, data['pisang_goreng']['description'])
-        send_image_url(reply_token, data['pisang_goreng']['image_url'])
+        # send_image_url(reply_token, data['pisang_goreng']['image_url'])
         # self.go_back()
 
     def is_next(self, event):
