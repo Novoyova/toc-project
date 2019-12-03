@@ -30,7 +30,7 @@ Bali’s take on chicken rice, nasi ayam and nasi campur are served at many waru
 
 Nasi ayam and nasi campur are sometimes served with a bowl of soup. For those who do not want it too spicy, simply ask for it without the sambal.''',
     
-        'image_url': './img/nasi_campur.jpg',
+        'image_url': '/img/nasi_campur.jpg',
     },
 
 
