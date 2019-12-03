@@ -22,7 +22,7 @@ def send_image_url(id, img_url):
     # url = img_url
     # app.logger.info("url=" + url)
     line_bot_api = LineBotApi(channel_access_token)
-    line_bot_api.reply_message(id, ImageSendMessage(url, url))
+    line_bot_api.push_message(id, ImageSendMessage(url, url))
 
     return "OK"
 
