@@ -1,159 +1,135 @@
 # TOC Project 2020
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/dc7fa47fcd809b99d087/maintainability)](https://codeclimate.com/github/NCKU-CCS/TOC-Project-2020/maintainability)
-
-[![Known Vulnerabilities](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020/badge.svg)](https://snyk.io/test/github/NCKU-CCS/TOC-Project-2020)
-
-
-Template Code for TOC Project 2020
-
-A Line bot based on a finite state machine
-
-More details in the [Slides](https://hackmd.io/@TTW/ToC-2019-Project#) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
-
-## Setup
-
-### Prerequisite
-* Python 3.6
-* Pipenv
-* Facebook Page and App
-* HTTPS Server
-
-#### Install Dependency
-```sh
-pip3 install pipenv
-
-pipenv --three
-
-pipenv install
-
-pipenv shell
-```
-
-* pygraphviz (For visualizing Finite State Machine)
-    * [Setup pygraphviz on Ubuntu](http://www.jianshu.com/p/a3da7ecc5303)
-	* [Note: macOS Install error](https://github.com/pygraphviz/pygraphviz/issues/100)
-
-
-#### Secret Data
-You should generate a `.env` file to set Environment Variables refer to our `.env.sample`.
-`LINE_CHANNEL_SECRET` and `LINE_CHANNEL_ACCESS_TOKEN` **MUST** be set to proper values.
-Otherwise, you might not be able to run your code.
-
-#### Run Locally
-You can either setup https server or using `ngrok` as a proxy.
-
-#### a. Ngrok installation
-* [ macOS, Windows, Linux](https://ngrok.com/download)
-
-or you can use Homebrew (MAC)
-```sh
-brew cask install ngrok
-```
-
-**`ngrok` would be used in the following instruction**
-
-```sh
-ngrok http 8000
-```
-
-After that, `ngrok` would generate a https URL.
-
-#### Run the sever
-
-```sh
-python3 app.py
-```
-
-#### b. Servo
-
-Or You can use [servo](http://serveo.net/) to expose local servers to the internet.
+## Balinese Food
+Hi, I am overseas chinese student from Indonesia-Bali. I would like to introduce some balinese food that I would really recommend if you go to bali and this chatbot will do exactly that!
 
 
 ## Finite State Machine
-![fsm](./img/show-fsm.png)
+![fsm](./img/fsm.png)
+
 
 ## Usage
-The initial state is set to `user`.
+The initial state is set to `init`.
 
-Every time `user` state is triggered to `advance` to another state, it will `go_back` to `user` state after the bot replies corresponding message.
+To get started you can send any message to trigger `food` (main menu) state. Then you can select which food do you want to know and it will move to the corresponding state. When you send invalid message it will go back to the `food` (main menu) state.
 
-* user
-	* Input: "go to state1"
-		* Reply: "I'm entering state1"
 
-	* Input: "go to state2"
-		* Reply: "I'm entering state2"
+## Example Interaction
+![example](./img/example.png)
 
-## Deploy
+
+## Setup
+
+### a. Run Locally
+You can either setup https server or using `ngrok` as a proxy.
+
+#### Ngrok installation
+- *[Download Ngrok](https://ngrok.com/download)*
+
+**To run `Ngrok`:**
+
+1. Run the command below
+
+	```
+	ngrok http your_port_number
+	```
+
+2. After that, `ngrok` would generate a `https` URL
+
+	```python
+	ngrok by @inconshreveable    (Ctrl+C to quit)
+
+	Session Status                online
+	Session Expires               7 hours, 59 minutes
+	Version                       2.3.35
+	Web Interface                 http://127.0.0.1:4040
+	Forwarding                    http://ae5cc609.ngrok.io -> http://localhost:8000
+	Forwarding                    https://ae5cc609.ngrok.io -> http://localhost:8000
+	Connections                   ttl     opn     rt1     rt5     p50     p90
+								0       0       0.00    0.00    0.00    0.00
+	```
+
+3. Copy the `https` URL and paste it in your linebot `webhook` settings
+
+	![webhook](./img/ngrok_webhook.png)
+
+4. Run app.py
+
+	* Before run app.py first set Environment Variables
+
+		```python
+		set LINE_CHANNEL_SECRET=your_line_channel_secret
+		set LINE_CHANNEL_ACCESS_TOKEN=your_line_channel_access_token
+		``` 
+
+		**MUST** be set to proper values. Otherwise, you might not be able to run your code.
+
+	* Then run app.py
+
+		```python
+		python app.py
+		```
+
+### b. Run on Heroku Server
 Setting to deploy webhooks on Heroku.
 
-### Heroku CLI installation
+#### Heroku CLI installation
+* *[Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)*
 
-* [macOS, Windows](https://devcenter.heroku.com/articles/heroku-cli)
-
-or you can use Homebrew (MAC)
-```sh
-brew tap heroku/brew && brew install heroku
-```
-
-or you can use Snap (Ubuntu 16+)
-```sh
-sudo snap install --classic heroku
-```
-
-### Connect to Heroku
-
+#### Connect to Heroku
 1. Register Heroku: https://signup.heroku.com
 
 2. Create Heroku project from website
 
 3. CLI Login
 
-	`heroku login`
+	```python
+	heroku login
+	```
 
-### Upload project to Heroku
-
+#### Upload project to Heroku
 1. Add local project to Heroku project
 
+	```python
 	heroku git:remote -a {HEROKU_APP_NAME}
+	```
 
 2. Upload project
 
-	```
+	```python
 	git add .
-	git commit -m "Add code"
+	git commit -m "commit_message"
 	git push -f heroku master
 	```
 
 3. Set Environment - Line Messaging API Secret Keys
 
-	```
+	```python
 	heroku config:set LINE_CHANNEL_SECRET=your_line_channel_secret
 	heroku config:set LINE_CHANNEL_ACCESS_TOKEN=your_line_channel_access_token
 	```
 
-4. Your Project is now running on Heroku!
+4. Connect Line to Heroku
 
-	url: `{HEROKU_APP_NAME}.herokuapp.com/callback`
+	```
+	URL: https://{HEROKU_APP_NAME}.herokuapp.com/webhook
+	````
 
-	debug command: `heroku logs --tail --app {HEROKU_APP_NAME}`
+	![heroku_webhook](./img/heroku_webhook.png)
+
+	```
+	Debug: heroku logs --tail --app {HEROKU_APP_NAME}
+	```
 
 5. If fail with `pygraphviz` install errors
 
-	run commands below can solve the problems
-	```
+	run commands below to solve the problems
+
+	```python
 	heroku buildpacks:set heroku/python
 	heroku buildpacks:add --index 1 heroku-community/apt
 	```
 
-	refference: https://hackmd.io/@ccw/B1Xw7E8kN?type=view#Q2-如何在-Heroku-使用-pygraphviz
-
-## Reference
-[Pipenv](https://medium.com/@chihsuan/pipenv-更簡單-更快速的-python-套件管理工具-135a47e504f4) ❤️ [@chihsuan](https://github.com/chihsuan)
-
-[TOC-Project-2019](https://github.com/winonecheng/TOC-Project-2019) ❤️ [@winonecheng](https://github.com/winonecheng)
-
-Flask Architecture ❤️ [@Sirius207](https://github.com/Sirius207)
-
-[Line line-bot-sdk-python](https://github.com/line/line-bot-sdk-python/tree/master/examples/flask-echo)
+	
+## For more details
+A Line bot based on a finite state machine [Slides](https://github.com/NCKU-CCS/TOC-Project-2020) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
