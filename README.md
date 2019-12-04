@@ -132,4 +132,4 @@ Setting to deploy webhooks on Heroku.
 
 	
 ## For more details
-A Line bot based on a finite state machine [Slides](https://github.com/NCKU-CCS/TOC-Project-2020) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
+A Line bot based on a finite state machine [Slides](https://hackmd.io/@TTW/ToC-2019-Project#/) and [FAQ](https://hackmd.io/s/B1Xw7E8kN)
